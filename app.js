@@ -10,6 +10,7 @@ mongoose.connect(config.db);
 
 const indexRouter = require('./routes/index');
 const ordersRouter = require('./routes/orders');
+const productsRouter = require('./routes/products');
 
 const app = express();
 
@@ -17,9 +18,16 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+	next();
+});
 
 app.use('/', indexRouter);
 app.use('/orders', ordersRouter);
+app.use('/products', productsRouter);
 
 app.use((req, res, next) => {
 	next(createError(404));
