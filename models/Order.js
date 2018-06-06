@@ -41,10 +41,19 @@ const orderProduct = async (orderId, productId) => (
 	))
 );
 
+const removeProductFromOrder = async (orderId, productId) => (
+	getById(orderId).then(order => {
+		const index = order.products.findIndex(x => x._id == productId.trim());
+		order.products.splice(index, 1);
+		return order.save();
+	})
+);
+
 return module.exports = {
 	getAll,
 	create,
 	remove,
+	update,
 	orderProduct,
-	update
+	removeProductFromOrder
 };

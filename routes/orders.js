@@ -52,4 +52,15 @@ router.put('/order/:orderId/product/:productId', (req, res, next) => {
 	})
 });
 
+router.delete('/order/:orderId/product/:productId', (req, res, next) => {
+	Order.removeProductFromOrder(
+			req.params.orderId,
+			req.params.productId
+	).then(order => {
+		res.send(order);
+	}, error => {
+		res.status(500).send(error);
+	})
+});
+
 module.exports = router;
